@@ -58,24 +58,23 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Send an incoming webhook to slack to post the fortune in the channel.
-	payload, err := json.MarshalIndent(map[string]string{
+	payload, err := json.Marshal(map[string]string{
 		"channel":    "#" + chanName,
 		"username":   "fortune-bot",
 		"icon_emoji": ":squirrel:",
 		"text":       msg,
-	}, "", "  ")
+	})
 	if err != nil {
 		log.Println("ERROR:", err)
 		return
 	}
-	log.Println("sending json:\n%s", string(payload))
 	resp, err := http.Post(hookUrl, "applicatiion/json", bytes.NewBuffer(payload))
 	if err != nil {
 		log.Println("ERROR:", err)
 	}
 	if resp.StatusCode != 200 {
 		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Println("ERROR:", string(body))
+		log.Println("ERROR:", string(body))
 	}
 }
 
