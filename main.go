@@ -68,7 +68,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Println("ERROR:", err)
 		return
 	}
-	resp, err := http.Post(hookUrl, "applicatiion/json", bytes.NewBuffer(payload))
+	resp, err := http.Post(hookUrl, "application/json", bytes.NewBuffer(payload))
 	if err != nil {
 		log.Println("ERROR:", err)
 	}
